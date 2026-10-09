@@ -13,3 +13,9 @@ work/
 .editorconfig
 *.swp
 .DS_Store
+
+# apktool intermediate build directory (per project)
+build/
+*/build/
+# apktool framework cache
+/apktool/framework/
