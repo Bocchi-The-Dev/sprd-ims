@@ -50,15 +50,16 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          # apktool from apt: the Debian repack strips the bundled aapt/aapt2
-          # binaries, but tools/build.sh always passes --use-aapt2 so the PATH
-          # binary is used instead, which works. aapt2 comes from the same pkg.
+          # apktool + aapt from apt. The 'aapt' package provides BOTH /usr/bin/aapt
+          # and /usr/bin/aapt2. The Debian apktool repack strips the bundled
+          # aapt binaries, so apktool falls back to the PATH binary; build.sh
+          # passes --use-aapt2 so the modern one is used.
           sudo apt-get update -qq
-          sudo apt-get install -y apktool aapt2 apksigner zipalign
-          mkdir -p "$ANDROID_HOME" || true
+          sudo apt-get install -y apktool aapt apksigner zipalign
           java -version 2>&1 | head -2
           apktool --version
-          aapt2 version 2>&1 | head -1
+          aapt version
+          aapt2 version
 
       - name: Build + verify + sign
         env:
