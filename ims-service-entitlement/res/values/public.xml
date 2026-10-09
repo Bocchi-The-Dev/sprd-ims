@@ -2658,37 +2658,37 @@
     <public type="dimen" name="tooltip_vertical_padding" id="0x7f0602d9" />
     <public type="dimen" name="tooltip_y_offset_non_touch" id="0x7f0602da" />
     <public type="dimen" name="tooltip_y_offset_touch" id="0x7f0602db" />
-    <public type="drawable" name="$$sud_fourcolor_progress_bar__10__0" id="0x7f070000" />
-    <public type="drawable" name="$$sud_fourcolor_progress_bar__11__0" id="0x7f070001" />
-    <public type="drawable" name="$$sud_fourcolor_progress_bar__12__0" id="0x7f070002" />
-    <public type="drawable" name="$$sud_fourcolor_progress_bar__1__0" id="0x7f070003" />
-    <public type="drawable" name="$$sud_fourcolor_progress_bar__2__0" id="0x7f070004" />
-    <public type="drawable" name="$$sud_fourcolor_progress_bar__3__0" id="0x7f070005" />
-    <public type="drawable" name="$$sud_fourcolor_progress_bar__4__0" id="0x7f070006" />
-    <public type="drawable" name="$$sud_fourcolor_progress_bar__5__0" id="0x7f070007" />
-    <public type="drawable" name="$$sud_fourcolor_progress_bar__6__0" id="0x7f070008" />
-    <public type="drawable" name="$$sud_fourcolor_progress_bar__7__0" id="0x7f070009" />
-    <public type="drawable" name="$$sud_fourcolor_progress_bar__8__0" id="0x7f07000a" />
-    <public type="drawable" name="$$sud_fourcolor_progress_bar__9__0" id="0x7f07000b" />
-    <public type="drawable" name="$avd_hide_password__0" id="0x7f07000c" />
-    <public type="drawable" name="$avd_hide_password__1" id="0x7f07000d" />
-    <public type="drawable" name="$avd_hide_password__2" id="0x7f07000e" />
-    <public type="drawable" name="$avd_show_password__0" id="0x7f07000f" />
-    <public type="drawable" name="$avd_show_password__1" id="0x7f070010" />
-    <public type="drawable" name="$avd_show_password__2" id="0x7f070011" />
-    <public type="drawable" name="$sud_fourcolor_progress_bar__0" id="0x7f070012" />
-    <public type="drawable" name="$sud_fourcolor_progress_bar__1" id="0x7f070013" />
-    <public type="drawable" name="$sud_fourcolor_progress_bar__10" id="0x7f070014" />
-    <public type="drawable" name="$sud_fourcolor_progress_bar__11" id="0x7f070015" />
-    <public type="drawable" name="$sud_fourcolor_progress_bar__12" id="0x7f070016" />
-    <public type="drawable" name="$sud_fourcolor_progress_bar__2" id="0x7f070017" />
-    <public type="drawable" name="$sud_fourcolor_progress_bar__3" id="0x7f070018" />
-    <public type="drawable" name="$sud_fourcolor_progress_bar__4" id="0x7f070019" />
-    <public type="drawable" name="$sud_fourcolor_progress_bar__5" id="0x7f07001a" />
-    <public type="drawable" name="$sud_fourcolor_progress_bar__6" id="0x7f07001b" />
-    <public type="drawable" name="$sud_fourcolor_progress_bar__7" id="0x7f07001c" />
-    <public type="drawable" name="$sud_fourcolor_progress_bar__8" id="0x7f07001d" />
-    <public type="drawable" name="$sud_fourcolor_progress_bar__9" id="0x7f07001e" />
+    <public type="drawable" name="__sud_fourcolor_progress_bar__10__0" id="0x7f070000" />
+    <public type="drawable" name="__sud_fourcolor_progress_bar__11__0" id="0x7f070001" />
+    <public type="drawable" name="__sud_fourcolor_progress_bar__12__0" id="0x7f070002" />
+    <public type="drawable" name="__sud_fourcolor_progress_bar__1__0" id="0x7f070003" />
+    <public type="drawable" name="__sud_fourcolor_progress_bar__2__0" id="0x7f070004" />
+    <public type="drawable" name="__sud_fourcolor_progress_bar__3__0" id="0x7f070005" />
+    <public type="drawable" name="__sud_fourcolor_progress_bar__4__0" id="0x7f070006" />
+    <public type="drawable" name="__sud_fourcolor_progress_bar__5__0" id="0x7f070007" />
+    <public type="drawable" name="__sud_fourcolor_progress_bar__6__0" id="0x7f070008" />
+    <public type="drawable" name="__sud_fourcolor_progress_bar__7__0" id="0x7f070009" />
+    <public type="drawable" name="__sud_fourcolor_progress_bar__8__0" id="0x7f07000a" />
+    <public type="drawable" name="__sud_fourcolor_progress_bar__9__0" id="0x7f07000b" />
+    <public type="drawable" name="_avd_hide_password__0" id="0x7f07000c" />
+    <public type="drawable" name="_avd_hide_password__1" id="0x7f07000d" />
+    <public type="drawable" name="_avd_hide_password__2" id="0x7f07000e" />
+    <public type="drawable" name="_avd_show_password__0" id="0x7f07000f" />
+    <public type="drawable" name="_avd_show_password__1" id="0x7f070010" />
+    <public type="drawable" name="_avd_show_password__2" id="0x7f070011" />
+    <public type="drawable" name="_sud_fourcolor_progress_bar__0" id="0x7f070012" />
+    <public type="drawable" name="_sud_fourcolor_progress_bar__1" id="0x7f070013" />
+    <public type="drawable" name="_sud_fourcolor_progress_bar__10" id="0x7f070014" />
+    <public type="drawable" name="_sud_fourcolor_progress_bar__11" id="0x7f070015" />
+    <public type="drawable" name="_sud_fourcolor_progress_bar__12" id="0x7f070016" />
+    <public type="drawable" name="_sud_fourcolor_progress_bar__2" id="0x7f070017" />
+    <public type="drawable" name="_sud_fourcolor_progress_bar__3" id="0x7f070018" />
+    <public type="drawable" name="_sud_fourcolor_progress_bar__4" id="0x7f070019" />
+    <public type="drawable" name="_sud_fourcolor_progress_bar__5" id="0x7f07001a" />
+    <public type="drawable" name="_sud_fourcolor_progress_bar__6" id="0x7f07001b" />
+    <public type="drawable" name="_sud_fourcolor_progress_bar__7" id="0x7f07001c" />
+    <public type="drawable" name="_sud_fourcolor_progress_bar__8" id="0x7f07001d" />
+    <public type="drawable" name="_sud_fourcolor_progress_bar__9" id="0x7f07001e" />
     <public type="drawable" name="abc_action_bar_item_background_material" id="0x7f070020" />
     <public type="drawable" name="abc_btn_borderless_material" id="0x7f070021" />
     <public type="drawable" name="abc_btn_check_material" id="0x7f070022" />
