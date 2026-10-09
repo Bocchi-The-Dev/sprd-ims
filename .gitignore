@@ -1,9 +1,15 @@
-# apktool framework caches
-*.apk/
-apktool.yml.orig
-# build outputs
-build/
+# apktool / build workspaces
+.tmp/
+dist/
+secrets/
 *.apk.idsig
-# editor
+work/
+
+# never leak a jks into history
+*.jks
+*.p12
+!secrets/.gitkeep
+
+.editorconfig
 *.swp
 .DS_Store

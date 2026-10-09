@@ -405,11 +405,12 @@
     .locals 3
 
     .line 630
-    const/4 v0, 0x0
-
-    if-nez p0, :cond_0
+    # [sprd-ims] null-context short-circuit forced to true (was return false)
+    const/4 v0, 0x1
 
     return v0
+
+    if-nez p0, :cond_0
 
     .line 631
     :cond_0
@@ -451,6 +452,10 @@
 
     .line 633
     :cond_2
+    # [sprd-ims] forced enable: LOS20 GSI has no Unisoc volTte props/overlays,
+    # so the framework-res + persist.* gates both read false and the service
+    # never started. Preserve the original diagnostics above, override result.
+    const/4 v0, 0x1
     return v0
 .end method
 
@@ -458,11 +463,12 @@
     .locals 1
 
     .line 639
-    if-nez p0, :cond_0
-
-    const/4 p0, 0x0
+    # [sprd-ims] null-context short-circuit forced to true (was return false)
+    const/4 p0, 0x1
 
     return p0
+
+    if-nez p0, :cond_0
 
     .line 640
     :cond_0
@@ -476,6 +482,9 @@
 
     move-result p0
 
+    # [sprd-ims] forced enable: framework-res 0x111010a
+    # (config_device_wfc_ims_enabled) is undefined on the LOS20 GSI.
+    const/4 p0, 0x1
     return p0
 .end method
 

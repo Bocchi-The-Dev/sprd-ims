@@ -434,6 +434,11 @@
 
     move-result v0
 
+    # [sprd-ims] force the CP-VoWifi monitor up regardless of the
+    # persist.vendor.sys.single.imsstack property, which is absent on the
+    # LOS20 GSI and used to stopSelf() here, killing the WFC state machine.
+    const/4 v0, 0x1
+
     if-eqz v0, :cond_0
 
     .line 59
