@@ -1,0 +1,23 @@
+Signature-Version: 1.0
+Created-By: 1.0 (Android SignApk)
+SHA-256-Digest-Manifest: b303TiflkX6fDbsI5kMLgsLGKEUJEErz4Gx7Ny4WNtE=
+X-Android-APK-Signed: 2, 3
+
+Name: AndroidManifest.xml
+SHA-256-Digest: M3KOmvm6LqldvdxqV4Vy7PaRawA6thtqb7guus6DZiM=
+
+Name: classes.dex
+SHA-256-Digest: 9/uHIz3nbqk+nY2kkHDJ6wE6Inc3gTC4rixvzgb7PbE=
+
+Name: com/spreadtrum/ims/RILRequest.uau
+SHA-256-Digest: SX+V3nJVNOzsQfIM/xsmMBzsFz0fc66ymgvUtO3zwxQ=
+
+Name: res/drawable-xhdpi-v4/ic_launcher.png
+SHA-256-Digest: AoTntYY0381h/EhjfJqy97ZmMlOG8hIcTQeETc4KWAM=
+
+Name: res/layout/rcs_wifi_provisioning.xml
+SHA-256-Digest: 1s3/rub3TDuRMe2F8g66RmGXN7UMsZ1x4wC3LIMJ1hA=
+
+Name: resources.arsc
+SHA-256-Digest: 58PIrC395r+226+kImX0v/W803h3tm3UXGjj+jpG5/o=
+

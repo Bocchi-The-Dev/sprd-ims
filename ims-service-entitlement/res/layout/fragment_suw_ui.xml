@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.setupdesign.GlifLayout android:icon="@drawable/ic_phone_in_talk" android:id="@id/setup_wizard_layout" android:layout_width="fill_parent" android:layout_height="fill_parent" app:sucHeaderText="@string/emergency_address_app_label"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:paddingStart="@dimen/suw_margin" android:paddingEnd="@dimen/suw_margin">
+        <TextView android:textAppearance="@style/SetupWizardText.Body1" android:id="@id/entry_text" android:paddingTop="8.0dip" android:paddingBottom="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:lineSpacingExtra="8.0sp" />
+    </LinearLayout>
+</com.google.android.setupdesign.GlifLayout>

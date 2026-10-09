@@ -1,0 +1,9 @@
+# apktool framework caches
+*.apk/
+apktool.yml.orig
+# build outputs
+build/
+*.apk.idsig
+# editor
+*.swp
+.DS_Store

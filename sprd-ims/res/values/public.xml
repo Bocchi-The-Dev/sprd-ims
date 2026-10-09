@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <public type="drawable" name="ic_launcher" id="0x7f010000" />
+    <public type="id" name="cancel_button" id="0x7f020000" />
+    <public type="id" name="error_layout" id="0x7f020001" />
+    <public type="id" name="msisdn" id="0x7f020002" />
+    <public type="id" name="normal_layout" id="0x7f020003" />
+    <public type="id" name="ok_button" id="0x7f020004" />
+    <public type="id" name="ok_error_button" id="0x7f020005" />
+    <public type="layout" name="rcs_wifi_provisioning" id="0x7f030000" />
+    <public type="string" name="label_cancel" id="0x7f040000" />
+    <public type="string" name="label_edit_msisdn" id="0x7f040001" />
+    <public type="string" name="label_invalid_phone_number" id="0x7f040002" />
+    <public type="string" name="label_ok" id="0x7f040003" />
+    <public type="style" name="AppBaseTheme" id="0x7f050000" />
+    <public type="style" name="AppTheme" id="0x7f050001" />
+</resources>

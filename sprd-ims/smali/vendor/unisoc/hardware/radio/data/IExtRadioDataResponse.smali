@@ -1,0 +1,134 @@
+.class public interface abstract Lvendor/unisoc/hardware/radio/data/IExtRadioDataResponse;
+.super Ljava/lang/Object;
+.source "IExtRadioDataResponse.java"
+
+# interfaces
+.implements Landroid/os/IInterface;
+
+
+# annotations
+.annotation system Ldalvik/annotation/MemberClasses;
+    value = {
+        Lvendor/unisoc/hardware/radio/data/IExtRadioDataResponse$Stub;,
+        Lvendor/unisoc/hardware/radio/data/IExtRadioDataResponse$Default;
+    }
+.end annotation
+
+
+# static fields
+.field public static final DESCRIPTOR:Ljava/lang/String;
+
+.field public static final HASH:Ljava/lang/String; = "f93db650b46dd919a75e452aa16dd068652146f3"
+
+.field public static final VERSION:I = 0x1
+
+
+# direct methods
+.method static constructor <clinit>()V
+    .locals 3
+
+    .line 398
+    const-string v0, "vendor$unisoc$hardware$radio$data$IExtRadioDataResponse"
+
+    const/16 v1, 0x24
+
+    const/16 v2, 0x2e
+
+    invoke-virtual {v0, v1, v2}, Ljava/lang/String;->replace(CC)Ljava/lang/String;
+
+    move-result-object v0
+
+    sput-object v0, Lvendor/unisoc/hardware/radio/data/IExtRadioDataResponse;->DESCRIPTOR:Ljava/lang/String;
+
+    return-void
+.end method
+
+
+# virtual methods
+.method public abstract attachDataResponse(Lvendor/unisoc/hardware/radio/ExtRadioResponseInfo;)V
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Landroid/os/RemoteException;
+        }
+    .end annotation
+.end method
+
+.method public abstract deactivateDataCallExtResponse(Lvendor/unisoc/hardware/radio/ExtRadioResponseInfo;)V
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Landroid/os/RemoteException;
+        }
+    .end annotation
+.end method
+
+.method public abstract enableRauNotifyResponse(Lvendor/unisoc/hardware/radio/ExtRadioResponseInfo;)V
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Landroid/os/RemoteException;
+        }
+    .end annotation
+.end method
+
+.method public abstract forceDeatchResponse(Lvendor/unisoc/hardware/radio/ExtRadioResponseInfo;)V
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Landroid/os/RemoteException;
+        }
+    .end annotation
+.end method
+
+.method public abstract getActivedPdpCountResponse(Lvendor/unisoc/hardware/radio/ExtRadioResponseInfo;I)V
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Landroid/os/RemoteException;
+        }
+    .end annotation
+.end method
+
+.method public abstract getInterfaceHash()Ljava/lang/String;
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Landroid/os/RemoteException;
+        }
+    .end annotation
+.end method
+
+.method public abstract getInterfaceVersion()I
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Landroid/os/RemoteException;
+        }
+    .end annotation
+.end method
+
+.method public abstract reAttachResponse(Lvendor/unisoc/hardware/radio/ExtRadioResponseInfo;)V
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Landroid/os/RemoteException;
+        }
+    .end annotation
+.end method
+
+.method public abstract setPsDataOffResponse(Lvendor/unisoc/hardware/radio/ExtRadioResponseInfo;)V
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Landroid/os/RemoteException;
+        }
+    .end annotation
+.end method
+
+.method public abstract setUsbShareStateSwitchResponse(Lvendor/unisoc/hardware/radio/ExtRadioResponseInfo;)V
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Landroid/os/RemoteException;
+        }
+    .end annotation
+.end method
+
+.method public abstract setupDataCallExtResponse(Lvendor/unisoc/hardware/radio/ExtRadioResponseInfo;Lvendor/unisoc/hardware/radio/data/SetupDataCallResultExt;)V
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Landroid/os/RemoteException;
+        }
+    .end annotation
+.end method

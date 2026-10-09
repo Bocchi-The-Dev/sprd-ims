@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Created-By: soong_zip
+
+Name: AndroidManifest.xml
+SHA-256-Digest: /0WMTyMOGubKvV49BdjYs/QwE9bh7HTxSeos8M8xxeA=
+
+Name: classes.dex
+SHA-256-Digest: DfxTo+EGy4nnerGqxB0wBhToNQQh8gQgpA9jWuKvf8M=
+
+Name: com/spreadtrum/ims/RILRequest.uau
+SHA-256-Digest: d0/weXDDyIn+rYP22cKKUs7RCJwlNc0ZVTN48gf5Y/8=
+
+Name: res/drawable-xhdpi-v4/ic_launcher.png
+SHA-256-Digest: i0XagvTwnaVSM1iTIQtOHPS78Wme3iP0PE139kR6Wek=
+
+Name: res/layout/rcs_wifi_provisioning.xml
+SHA-256-Digest: soSqE5kj2iEue/68kr8wEWwSCCBO7oCBUvZYyErO7/Y=
+
+Name: resources.arsc
+SHA-256-Digest: u28f9PFeP/VQ9M6vCex0IKN/tm9A6SJxPcLTbU2HDEA=
+
