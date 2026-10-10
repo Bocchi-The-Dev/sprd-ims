@@ -99,7 +99,10 @@ jobs:
               [ -f "$f" ] || continue
               echo "--- $f"
               stat -c 'size: %s bytes' "$f"
-              apksigner verify --print-certs "$f" 2>/dev/null | sed 's/^/  /' | head -6
+              # unsigned apks have no signature block, so apksigner fails by design
+              if apksigner verify --print-certs "$f" 2>/dev/null; then :; else
+                echo "  (unsigned / no v1 signature block)"
+              fi
             done
           } | tee build-info/summary.txt
 
