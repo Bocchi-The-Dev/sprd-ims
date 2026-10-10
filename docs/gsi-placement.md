@@ -119,3 +119,80 @@ adb shell ls -lZ /system_ext/priv-app/ims/ims.apk        # must not say unlabele
 ```
 `ims_ex` + `ims_ut_ex` appearing means `ImsAdapterService.onCreate` got past all
 three gates - which is the whole point of the smali patch.
+
+# Will VoLTE work without ims_bridged / libimsbrd.so?
+
+Short answer: **registration yes, calls uncertain.** Here is the evidence.
+
+## What the missing pieces actually do
+
+`libimsbrd.so` exports (from `strings`):
+```
+imsbrd_add_tuple        imsbrd_del_tuple        imsbrd_reset_tuple
+imsbrd_add_spi          imsbrd_del_spi          imsbrd_get_oseq_by_spi
+imsbrd_enable_vrt       imsbrd_enable_mark      imsbrd_set_lp_state
+imsbrd_set_callstate    imsbrd_set_cur_call_sim
+imsbrd_send_src_mac     imsbrd_send_dst_mac
+```
+and the daemon itself:
+```
+Start vowifi call... / Stop vowifi call...
+failed to create ioctl socket / fail to create netlink socket
+/sys/module/ims_bridge/parameters/{tcpdump_enable,vowifi_in_mark}
+socket_local_server / vowifi-call / volte-call
+```
+
+Every one of those is a **netfilter/connection-tracking mark or a tuple rule**,
+driven from a unix socket that receives `volte-call` / `vowifi-call` events.
+Nothing in there performs IMS registration, PDN setup, or SIP signalling.
+
+## What carries IMS itself
+
+Registration + signalling + PDN go over the AIDL radio HAL:
+
+    vendor.unisoc.hardware.radio.ims.IImsRadio/slot1
+    vendor.unisoc.hardware.radio.ims.IImsRadio/slot2
+
+served by `/vendor/bin/hw/urild` inside the **vendor partition, which the GSI
+flash keeps**. Its AIDL schema hash was verified to match the APK exactly
+(`f53a892d42fdfb0cbd0c5a33c747541660d182d8`), and the service is present on the
+stock device. So the IMS control plane does not touch `ims_bridged` at all.
+
+## Conclusion
+
+| | without ims_bridged | with ims_bridged |
+|---|---|---|
+| IMS registration | works | works |
+| VoLTE call setup (SIP/INVITE) | should work | should work |
+| Call audio path | **at risk** | correct dedicated bearer |
+| VoWIFI | n/a (WFC not provisioned on stock) | — |
+
+Concretely: expect to see `ims_ex`/`ims_ut_ex` allocated, `gsm.sys.volte.state`
+flip to `1`, and `MmTelFeature` become AVAILABLE. A placed call may connect, but
+audio can be one-way, choppy, or silent because the packets are not being marked
+for the dedicated QoS flow.
+
+## Recovering the 64-bit libimsbrd.so
+
+We lost it: both `adb pull`s targeted the same path, so the 32-bit ARM build
+overwrote the 64-bit one, and `ims_bridged` is 64-bit aarch64.
+`libimsbrd` is **not** in `vendor_a.img` (checked) and **not** in the LOS GSI.
+
+To get it back, re-extract from the stock IS8 firmware:
+- the official X6525 `.pac`, unpacked with the Spreadtrum Flash Tool
+  (Extract Pac -> Unpack single file -> `system_ext`), then
+  `system_ext.img` -> `lib64/libimsbrd.so`
+- or re-flash stock / re-adb-pull it while stock is on the device
+
+If you cannot get it, an alternative is a **stub `.so`** exporting the 12
+`imsbrd_*` symbols as `return 0` so the daemon at least starts - but that
+gives you the same functional result as not shipping it, so there is little
+point.
+
+## Recommendation
+
+Ship the port **without** ims_bridged first. It gets you registration + call
+setup, which is the hard part. If calls connect but audio is broken, that is a
+clean, isolated signal that the bridge is the missing piece - and by then you
+may have recovered the lib. That is a much better failure mode than blocking
+the whole port on a library we no longer have.
