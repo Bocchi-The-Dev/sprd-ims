@@ -69,6 +69,48 @@ SIGN=1
 mkdir -p "$OUT_DIR"
 BUILT=()
 
+# -----------------------------------------------------------------------------
+# bootclasspath jar merge
+#
+# com.spreadtrum.ims is compiled against Unisoc's BOOTCLASSPATH jar
+# /system/framework/unisoc_ims_common.jar (see docs/stock-reference.md). It
+# declares 29 classes in com.android.ims.internal; only 2 of them (IImsServiceEx,
+# ImsCallForwardInfoEx) exist in AOSP's telephony-common.jar. Everything else -
+# IVoWifiSecurity, IVoWifiCall, IVoWifiRegister, IVoWifiSms, IVoWifiUT,
+# ImsManagerEx, ImsSrvccCallInfo, GbaAuthResult, ... - is Unisoc-only and will
+# throw NoClassDefFoundError on the LOS 20 GSI.
+#
+# We cannot add a jar to the GSI's bootclasspath without rebuilding the boot
+# image against a matching toolchain, so instead we merge the jar's dex into the
+# APK as smali_classes2/ (-> classes2.dex, standard multidex layout).
+#
+# BootClassLoader is still consulted first, so the 2 AOSP classes keep resolving
+# to the platform's own version - which is what the framework's phone process
+# uses too, so binder interop stays consistent. Only the 27 Unisoc-only classes
+# get loaded from our dex. Duplicate class definitions across the boot classpath
+# and an app dex are legal; there is no install-time conflict.
+# -----------------------------------------------------------------------------
+merge_bootclasspath_libs() {
+  local prj="$1" jar decode target
+  for jar in framework-libs/*.jar; do
+    [ -e "$jar" ] || continue
+    log "merging bootclasspath lib $jar into $prj"
+    decode="$WORK_DIR/$(basename "$jar" .jar)-smali"
+    rm -rf "$decode"
+    "${APKTOOL_CMD[@]}" d -f "$jar" -o "$decode" --only-main-classes >/dev/null 2>&1 \
+      || "${APKTOOL_CMD[@]}" d -f "$jar" -o "$decode" >/dev/null 2>&1 \
+      || die "could not decode $jar"
+    [ -d "$decode/smali" ] || die "$jar produced no smali/ tree"
+    target="$prj/smali_classes2"
+    rm -rf "$target"
+    mkdir -p "$target"
+    cp -a "$decode/smali/." "$target/"
+    local n
+    n=$(find "$target" -name '*.smali' | wc -l)
+    log "merged $n smali classes into $prj/smali_classes2"
+  done
+}
+
 # apktool's aapt/aapt2 reject '$' inside resource entry names. Google's setup
 # wizard library ships drawables named "$sud_fourcolor_progress_bar__N" and
 # "$avd_show_password__N", which decode fine but cannot be re-linked.
@@ -128,7 +170,9 @@ for NAME in ImsApp ImsServiceEntitlement; do
   PROJ="$(apk_to_project "$NAME")"
   [ -d "$PROJ/smali" ] || die "missing decompiled tree $PROJ"
   sanitize_res_names "$PROJ"
+  [ "$NAME" = "ImsApp" ] && merge_bootclasspath_libs "$PROJ"
   UNSIGNED="$OUT_DIR/${NAME}.unsigned.apk"
+  [ "$NAME" = "ImsApp" ] && UNSIGNED_IMSAPP="$UNSIGNED"
   log "building $NAME from $PROJ"
   rm -rf "$PROJ/build"
   # Try aapt2 first: the Debian/Ubuntu apktool package ships no prebuilt aapt
@@ -174,6 +218,21 @@ done
 grep -q 'android.telephony.ims.ImsService' "$MAN" \
   || die "verify: lost the android.telephony.ims.ImsService bind action"
 log "ImsApp: no conflicting telephony service actions, ImsService filter intact"
+
+# Bootclasspath merge: unisoc_ims_common.jar must land in the app's own dex.
+# LOS 20 has only IImsServiceEx + ImsCallForwardInfoEx of these 29 classes, so
+# the Unisoc-only ones MUST ship in the apk or the app dies with
+# NoClassDefFoundError at the first VOWIFI touch. apktool decodes them back out
+# as smali_classes2/, so we can assert directly on the round-tripped tree.
+BSM="$WORK_DIR/verify-ImsApp/smali_classes2"
+[ -d "$BSM" ] || die "verify: no smali_classes2/ - bootclasspath jar was not merged"
+bad=""
+for c in IVoWifiSecurity IVoWifiCall IVoWifiRegister IVoWifiSms IVoWifiUT \
+         ImsManagerEx ImsSrvccCallInfo GbaAuthResult; do
+  [ -f "$BSM/com/android/ims/internal/$c.smali" ] || bad="$bad $c"
+done
+[ -z "$bad" ] || die "verify: bootclasspath merge incomplete, missing:$bad"
+log "ImsApp: bootclasspath classes (IVoWifi*, ImsManagerEx, ...) present in classes2.dex"
 
 # Manifest sanity: shared user id + the bind action must still be there.
 grep -q 'android.uid.phone' "$MAN" || die "verify: lost sharedUserId android.uid.phone"

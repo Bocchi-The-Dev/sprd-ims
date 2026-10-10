@@ -23,4 +23,5 @@ build/
 # device-extracted binaries
 device-stock/**/*.so
 device-stock/**/*.jar
+!framework-libs/*.jar
 device-stock/**/*.apk
