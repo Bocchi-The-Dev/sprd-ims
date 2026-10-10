@@ -25,3 +25,7 @@ device-stock/**/*.so
 device-stock/**/*.jar
 !framework-libs/*.jar
 device-stock/**/*.apk
+
+# staged GSI tree
+gsi-root/
+gsi-root.tar.gz
