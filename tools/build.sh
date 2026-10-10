@@ -181,7 +181,7 @@ command -v apksigner >/dev/null 2>&1 || die "apksigner unavailable; install andr
 KEYSTORE="${KEYSTORE:-}"
 KEYSTORE_PASS="${KEYSTORE_PASS:-android}"
 KEY_ALIAS="${KEY_ALIAS:-platform}"
-KEY_PASS="${KEY_PASS:-}"
+KEY_PASS="${KEY_PASS:-$KEYSTORE_PASS}"
 
 if [ -z "$KEYSTORE" ]; then
   if [ -f secrets/platform.jks ]; then
@@ -192,14 +192,16 @@ if [ -z "$KEYSTORE" ]; then
     mkdir -p "$WORK_DIR"
     KEYSTORE="$WORK_DIR/debug.jks"
     rm -f "$KEYSTORE"
-    keytool -genkeypair -v -keystore "$KEYSTORE" -storepass "$KEYSTORE_PASS" \
+    keytool -genkeypair -keystore "$KEYSTORE" -storepass "$KEYSTORE_PASS" \
       -alias "$KEY_ALIAS" -keypass "$KEY_PASS" -keyalg RSA -keysize 2048 \
-      -validity 10000 -dname "CN=sprd-ims CI, O=Bocchi-The-Dev, C=US" 2>&1 | tail -1
+      -validity 10000 -dname "CN=sprd-ims CI, O=Bocchi-The-Dev, C=US" >/dev/null \
+      || { keytool -genkeypair -keystore "$KEYSTORE" -storepass "$KEYSTORE_PASS" \
+             -alias "$KEY_ALIAS" -keypass "$KEY_PASS" -keyalg RSA -keysize 2048 \
+             -validity 10000 -dname "CN=sprd-ims CI, O=Bocchi-The-Dev, C=US"; exit 1; }
   fi
 fi
 
-SIGN_ARGS=(--ks "$KEYSTORE" --ks-pass "pass:${KEYSTORE_PASS}" --ks-key-alias "$KEY_ALIAS")
-[ -n "$KEY_PASS" ] && SIGN_ARGS+=(--key-pass "pass:${KEY_PASS}")
+SIGN_ARGS=(--ks "$KEYSTORE" --ks-pass "pass:${KEYSTORE_PASS}" --ks-key-alias "$KEY_ALIAS" --key-pass "pass:${KEY_PASS}")
 
 for NAME in ImsApp ImsServiceEntitlement; do
   UNSIGNED="$OUT_DIR/${NAME}.unsigned.apk"
