@@ -153,15 +153,30 @@ done
 # ImsApp: the three forced-enable gates must survive into the dex.
 CFG="$WORK_DIR/verify-ImsApp/smali/com/spreadtrum/ims/ImsConfigImpl.smali"
 WFC="$WORK_DIR/verify-ImsApp/smali/com/spreadtrum/ims/n3am/vowifi/WFCStateMonitorService.smali"
+MAN="$WORK_DIR/verify-ImsApp/AndroidManifest.xml"
 grep -q 'const/4 v0, 0x1' "$CFG" || die "verify: isImsEnabledBySystemProperties patch missing"
 grep -q 'const/4 p0, 0x1' "$CFG" || die "verify: isVoWiFiEnabledByBoard patch missing"
 grep -q 'const/4 v0, 0x1' "$WFC" || die "verify: WFCStateMonitorService patch missing"
 log "ImsApp: all 3 forced-enable gates verified in the rebuilt dex"
 
+# GSI safety: this APK must not declare the telephony actions that the
+# LOS20/AOSP framework also declares, or PackageManager.resolveService() can
+# pick ours and break the data stack. Only android.telephony.ims.ImsService
+# may remain.
+for act in android.telephony.NetworkService \
+           android.telephony.data.DataService \
+           android.telephony.data.QualifiedNetworksService \
+           android.telephony.gba.GbaService; do
+  if grep -q "$act" "$MAN"; then
+    die "verify: manifest still declares conflicting action '$act' (breaks GSI data stack)"
+  fi
+done
+grep -q 'android.telephony.ims.ImsService' "$MAN" \
+  || die "verify: lost the android.telephony.ims.ImsService bind action"
+log "ImsApp: no conflicting telephony service actions, ImsService filter intact"
+
 # Manifest sanity: shared user id + the bind action must still be there.
-MAN="$WORK_DIR/verify-ImsApp/AndroidManifest.xml"
 grep -q 'android.uid.phone' "$MAN" || die "verify: lost sharedUserId android.uid.phone"
-grep -q 'android.telephony.ims.ImsService' "$MAN" || die "verify: lost ImsService bind action"
 log "ImsApp: sharedUserId + ImsService bind action verified"
 
 # ------------------------------------------------------------------- sign

@@ -21,27 +21,26 @@ Also needed:
 - sepolicy `file_contexts` for the new dirs, `seapp_contexts` if needed
 - apk **signature must match the GSI's platform key** (docs/signing.md)
 
-## 2. The six intent filters on ONE service (design flaw for GSI)
-`ImsAdapterService` declares, and `onBind` returns `mImsServiceController` for
-ALL of:
+## 2. CORRECTED: conflicting telephony service actions (REAL GSI bug)
+`ImsAdapterService` has exactly ONE filter (`android.telephony.ims.ImsService`),
+but four sibling services declared actions that the LOS20/AOSP framework ALSO
+declares:
 ```
-android.telephony.ims.ImsService                          <- the one we want
-android.telephony.NetworkService
-android.telephony.data.QualifiedNetworksService   (x2)
-android.telephony.data.DataService               (x2)
-android.telephony.gba.GbaService
-com.android.ims.internal.IN3AMVideoStateNoitfy
+.IwlanNetworkService            -> android.telephony.NetworkService
+.IwlanQualifiedNetworksService   -> android.telephony.data.QualifiedNetworksService (x2)
+.IwlanDataService                -> android.telephony.data.DataService (x2)
+.gba.UnisocGbaService            -> android.telephony.gba.GbaService
 ```
-`onBind` ignores the action and always returns the ImsService controller. So if
-the LOS telephony also binds `android.telephony.data.DataService` to this package
-(highly likely on a GSI with the stock Unisoc radio), it gets an
-`IImsServiceController` where it expects an `IImsDataService` ->
-`ClassCastException` in Telephony, or at minimum a silently broken data stack.
+On the Unisoc ROM these are the only declarers, so they win. On the GSI both
+sides declare them and `PackageManager.resolveService()` may resolve to ours,
+which breaks/hijacks the phone process's data stack. VoLTE never binds them.
 
-**Fix**: make `onBind` action-aware. Return the ImsService controller ONLY for
-`android.telephony.ims.ImsService`, and drop the `ims_ex`/`ims_ut_ex`
-`ServiceManager.addService` side effects unless the action is a Unisoc-specific
-one. Same for `onCreate` (currently unconditional).
+**Fixed**: removed all four conflicting `<intent-filter>` blocks; the services
+stay declared (non-exported, harmless) but are no longer bind targets.
+Also made `onBind` action-aware: non-ImsService actions now return null instead
+of `mImsServiceController` (which would be an `IImsServiceController` where the
+caller expects e.g. `IImsDataService`).
+`tools/build.sh` asserts this on every build so it cannot silently regress.
 
 ## 3. Missing external dependency: com.spreadtrum.vowifi
 `ServiceManager` binds by explicit `ComponentName`:

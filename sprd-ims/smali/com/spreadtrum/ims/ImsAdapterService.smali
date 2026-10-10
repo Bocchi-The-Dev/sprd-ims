@@ -433,8 +433,11 @@
     return-object p1
 
     .line 756
+    # [sprd-ims] GSI safety: only answer the ImsService action. Any other action
+    # must yield null, otherwise the caller gets an IImsServiceController where
+    # it expects a different AIDL interface (e.g. IImsDataService).
     :cond_1
-    iget-object p1, p0, Lcom/spreadtrum/ims/ImsAdapterService;->mImsServiceController:Landroid/os/IBinder;
+    const/4 p1, 0x0
 
     return-object p1
 .end method

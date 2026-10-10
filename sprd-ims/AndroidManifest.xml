@@ -17,35 +17,11 @@
                 <action android:name="android.telephony.ims.ImsService"/>
             </intent-filter>
         </service>
-        <service android:exported="false" android:name=".IwlanNetworkService" android:permission="android.permission.BIND_TELEPHONY_NETWORK_SERVICE">
-            <intent-filter>
-                <action android:name="android.telephony.NetworkService"/>
-            </intent-filter>
-        </service>
-        <service android:exported="false" android:name=".IwlanQualifiedNetworksService" android:permission="android.permission.BIND_TELEPHONY_DATA_SERVICE">
-            <intent-filter>
-                <action android:name="android.telephony.data.QualifiedNetworksService"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.telephony.data.QualifiedNetworksService"/>
-                <category android:name="com.unisoc.ims.tests"/>
-            </intent-filter>
-        </service>
-        <service android:exported="false" android:name=".IwlanDataService" android:permission="android.permission.BIND_TELEPHONY_DATA_SERVICE">
-            <intent-filter>
-                <action android:name="android.telephony.data.DataService"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.telephony.data.DataService"/>
-                <category android:name="com.unisoc.ims.tests"/>
-            </intent-filter>
-        </service>
+        <service android:exported="false" android:name=".IwlanNetworkService" android:permission="android.permission.BIND_TELEPHONY_NETWORK_SERVICE"/>
+        <service android:exported="false" android:name=".IwlanQualifiedNetworksService" android:permission="android.permission.BIND_TELEPHONY_DATA_SERVICE"/>
+        <service android:exported="false" android:name=".IwlanDataService" android:permission="android.permission.BIND_TELEPHONY_DATA_SERVICE"/>
         <service android:exported="false" android:name=".vowifi.ImsDozeManagerService"/>
-        <service android:enabled="true" android:exported="false" android:name=".gba.UnisocGbaService" android:permission="android.permission.BIND_GBA_SERVICE">
-            <intent-filter>
-                <action android:name="android.telephony.gba.GbaService"/>
-            </intent-filter>
-        </service>
+        <service android:enabled="true" android:exported="false" android:name=".gba.UnisocGbaService" android:permission="android.permission.BIND_GBA_SERVICE"/>
         <activity android:configChanges="keyboardHidden|orientation|screenSize" android:excludeFromRecents="true" android:name="com.spreadtrum.ims.acs.AcsProvisioningAlertDialog"/>
         <service android:exported="false" android:name="com.spreadtrum.ims.n3am.vowifi.WFCStateMonitorService"/>
         <service android:exported="false" android:name="com.spreadtrum.ims.n3am.vowifi.PhoneStateMonitor"/>
