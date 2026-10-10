@@ -1,0 +1,7 @@
+service vendor.tranhwinfo-1-0 /vendor/bin/hw/vendor.sprd.hardware.tranHwInfo@1.0-service
+    class early_hal
+    user system
+    group system
+
+on fs
+    start vendor.tranhwinfo-1-0

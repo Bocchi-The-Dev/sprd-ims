@@ -1,0 +1,23 @@
+#STD: xiaoxiang.xiong add ffu fw dir for FFU start
+on post-fs
+    restorecon_recursive /tranfs/
+    chmod 777 /tranfs/
+    chown system system /tranfs/
+
+on post-fs-data
+#BSP: jie.hu add for charge start
+    chmod 0666 /sys/devices/platform/tran_charger/OTG_CTL
+#BSP: jie.hu add for charge end
+    mkdir /tranfs/ffu 0700 system shell
+    chmod 0777 /tranfs/ffu
+#STD: xiaoxiang.xiong add ffu fw dir for FFU end
+
+#BSP: add XLWYYF-300 by hailin.li for csr file in cali mode 20221214 start
+on cali-start
+    start vendor.keymint-unisoc-2.0
+
+#BSP: add XLWYYF-300 by hailin.li for csr file in cali mode 20221214 end
+#SDD:add for X6525PUB-990 by wentao.liu start
+on property:persist.sys.tran.device.name=*
+     write /config/usb_gadget/g1/strings/0x409/product ${persist.sys.tran.device.name}
+#SDD:add for X6525PUB-990 by wentao.liu end

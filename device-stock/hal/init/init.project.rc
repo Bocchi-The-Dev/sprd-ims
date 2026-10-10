@@ -1,0 +1,14 @@
+on boot
+    write /dev/kmsg "woodpecker: enter boot" 
+    wait /dev/goodix_fp
+    chmod 664 /dev/goodix_fp                                      
+    chown system system /dev/goodix_fp
+
+on factorytest-fs
+    write /dev/kmsg "woodpecker: enter factorytest-fs"
+    insmod ${ro.vendor.ko.mount.point}/socko/goodix_fp.ko         
+    
+on factorytest-start
+    write /dev/kmsg "woodpecker: enter factorytest-start"                                               
+    chmod 664 /dev/goodix_fp                                      
+    chown system system /dev/goodix_fp

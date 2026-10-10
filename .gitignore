@@ -19,3 +19,8 @@ build/
 */build/
 # apktool framework cache
 /apktool/framework/
+
+# device-extracted binaries
+device-stock/**/*.so
+device-stock/**/*.jar
+device-stock/**/*.apk

@@ -1,0 +1,15 @@
+#add for console debug
+on property:ro.boot.iteldebug=1 && property:ro.debuggable=0
+    start console
+
+#ITD: Add 360flash systemUI By Camera Drv Start
+on post-fs-data
+    chmod 0666 /sys/class/torch/torch/torch_level
+    chown system system /sys/class/torch/torch/torch_level
+    chmod 0666 /sys/class/sub_torch/sub_torch/sub_torch_level
+    chown system system sys/class/sub_torch/sub_torch/sub_torch_level
+    chmod 0666 /sys/devices/virtual/torch/torch/torch_level
+    chown system system /sys/devices/virtual/torch/torch/torch_level
+    chmod 0666 /sys/devices/virtual/sub_torch/sub_torch/sub_torch_level
+    chown system system /sys/devices/virtual/sub_torch/sub_torch/sub_torch_level
+#ITD: Add 360flash systemUI By Camera Drv End
